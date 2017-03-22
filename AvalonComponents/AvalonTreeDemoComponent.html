@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <style>
+            body{
+                font-family: Monaco, Consolas, monospace;
+                font-size:20px;
+                padding:50px;
+            }
+            .bold{
+                font-weight: bolder;
+                cursor:pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <template :widget="{is:'ms-tree-item',name:'aaa'}"></template>
+        </ul>
+    <script src="avalon.js"></script>
+    <script>
+
+        function heredoc(fn) {
+            return fn.toString().replace(/^[^\/]+\/\*!?\s?/, '').
+                    replace(/\*\/[^\/]+$/, '').trim().replace(/>\s*</g, '><')
+        }
+        var treeID = 0;
+        avalon.component('ms-tree-item',{
+            template:heredoc(function(){
+                /*  
+                    <li>
+                        <input type="checkbox" :duplex-checked="@checked" style="margin-right:10px;"/>
+                        <div :click="@toggle" :dblclick="@changeType" style="display:inline-block;">
+                            <span :text="@name" :class="{bold : @isFolder}"></span>
+                            <span :text="@open !== true ? '[+]' : '[-]'"></span>
+                            <span :click="@removeItem | stop" style="color:red;cursor:pointer;margin-left:5px;" :if="!isFolder">x</span>
+                        </div>
+                        <ul :visible="@open === true ? true : false">
+                            <!--ms-for:(index,el) in @children-->
+                            <template is="ms-tree-item" :widget="el"></template>
+                            <!--ms-for-end:-->
+                            <li :click="@addItem" style="cursor:pointer;">+</li>
+                        </ul>
+                    </li>
+                */
+            }),
+            defaults:{
+                name:'ddddd',
+                children:[],
+                open:true,
+                checked:true,
+                $computed:{
+                    isFolder:{
+                        get:function(){
+                            return this.children && (this.children.length>0);
+                        }
+                    }
+                },
+                cancelIsVisible:'aa',
+                onInit:function(a){
+                    this.$watch('checked',function(newValue,oldValue,attr){
+                        if(this.children && this.children.length){
+                            var self = this;
+                            this.children.forEach(function(value,index,arr){
+                                console.log(value);
+                                value.checked = newValue;
+                            });
+                        }
+                    })
+                },
+                isHover:function(e){
+                    this.cancelIsVisible = true;
+                },
+                addItem:function(e){
+                    this.children.push({
+                        name : 'tree'+(++treeID),
+                        children : [],
+                        open : false,
+                        checked : false,
+                    })
+                },
+                removeItem:function(e){
+                    console.log('从父节点删除');
+                },
+                toggle:function(e){
+                    console.log(this.children);
+                    this.open != undefined? this.open = !this.open : this.open = true;
+                },
+                
+                changeType:function(e){
+                }
+            }
+        })
+    </script>
+    </body>
+</html>

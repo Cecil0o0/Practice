@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <button type="button" id="btn1" style="width:400px;height:200px;text-align:center;">请长按>1s</button>
+    <button type="button" id="btn2" style="width:400px;height:200px;text-align:center;">请长按>2s</button>
+    <script>
+        function enableLongPress(target,threshold){
+            let evt = document.createEvent('Events'),
+                timer = null,
+                incrementFlag = false,
+                accuracy = 100;
+            evt.initEvent('longpress',true,true);
+            
+            target.addEventListener('mousedown',function(){
+                timer = new Date();
+            },false);
+            target.addEventListener('mouseup',function(){
+                let diff = new Date() - timer;
+                if( diff > threshold){
+                    evt.duration = diff;
+                    target.dispatchEvent(evt);
+                }
+            },false);
+            
+        }
+        enableLongPress(document.querySelector('#btn1'),1000);
+        enableLongPress(document.querySelector('#btn2'),2000);
+
+        document.querySelector('#btn2').addEventListener('longpress',function(e){
+            console.log(e);
+            console.log('btn2长按时长为： ' + e.duration + 'ms');
+        },false);
+        document.querySelector('#btn1').addEventListener('longpress',function(e){
+            console.log(e);
+            console.log('btn1长按时长为： ' + e.duration + 'ms');
+        },false);
+    </script>
+    </body>
+</html>
