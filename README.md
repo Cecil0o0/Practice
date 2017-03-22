@@ -1,3 +1,3 @@
 # Practice
 - It's a cluster of mine practical collections
-- Welcome to fork and push compelling practical about front-end
+- Welcome to fork and push compelling practice about front-end
