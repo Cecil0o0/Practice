@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .menu {
+      height: 50px;
+      width: 50px;
+      position: relative;
+      border: 0px solid #FC2052;
+      border-radius: 2px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .menu:before,
+    .menu:after {
+      content: '';
+      display: block;
+      margin-bottom: 5px;
+      position: absolute;
+      top: 10px;
+      width: 70%;
+      height: 5px;
+      background-color: #FC2052;
+      border-radius: 3px;
+      transition: all .5s ease;
+    }
+
+    .menu:after {
+      top: 34px;
+      box-shadow: 0 -12px 0 #FC2052;
+    }
+
+    .menu:hover:after {
+      box-shadow: none;
+      transform-origin: 23% -11%;
+      width: 75%;
+      transform: rotate(-45deg);
+    }
+
+    .menu:hover:before {
+      transform-origin: 0% 180%;
+      width: 75%;
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu"></div>
+</body>
+
+</html>
