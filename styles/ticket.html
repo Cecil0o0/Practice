@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    * {
+      box-sizing: border-box !important;
+    }
+    .ticket {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%) scale(1);
+              transform: translate(-50%, -50%) scale(1);
+      min-width: 350px;
+      max-width: 350px;
+    }
+    .ticket-content {
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 3px 1px 7px rgba(158,186,205,0.4);
+      position: relative;
+    }
+    .ticket-content-left-bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      z-index: 100;
+      border-left: none;
+      background: -webkit-radial-gradient(50% 50% circle, #fff 0, #fff 43%, transparent 0);
+      background: radial-gradient(circle at 50% 50%, #fff 0, #fff 43%, transparent 0);
+      background-repeat: repeat-y;
+      background-color: transparent;
+      background-size: 15px 15px;
+      background-position: -7.5px 0;
+    }
+    .ticket-content-left {
+      position: absolute;
+      background-image: -webkit-linear-gradient(315deg, #3ddcf2, #04a6e9);
+      background-image: linear-gradient(135deg, #3ddcf2, #04a6e9);
+      height: 100%;
+      width: 25%;
+    }
+    .ticket-content-left-body {
+      position: absolute;
+      color: #fff;
+      font-size: 16px;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 6px 10px;
+      border: 1px dashed rgba(255,255,255,0.3);
+      text-align: center;
+    }
+    .ticket-content-left-body .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      width: 100%;
+    }
+    .ticket-content-right {
+      position: relative;
+      float: left;
+      display: inline-block;
+      width: 75%;
+      margin-left: 25%;
+    }
+    .ticket-content-right-body {
+      position: relative;
+      color: #555;
+      font-size: 13px;
+      height: 100%;
+      margin: 6px 10px;
+      padding: 7px 12px;
+      border: 1px dashed #e5e5e5;
+    }
+    .ticket-content-right-body-help {
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .ticket-content-right-body-count {
+      float: left;
+      margin-top: 2px;
+      font-size: 13px;
+    }
+    .ticket-content-right-body-price {
+      float: right;
+      font-size: 16px;
+      color: #04a6e9;
+    }
+  </style>
+</head>
+<body>
+  <div class="ticket">
+    <div class="ticket-content">
+      <div class="ticket-content-left-bar"></div>
+      <div class="ticket-content-left">
+        <div class="ticket-content-left-body">
+          <div class="center">普通票</div>
+        </div>
+      </div>
+      <div class="ticket-content-right">
+        <div class="ticket-content-right-body">
+          <div class="ticket-content-right-body-title">提供中午与嘉宾进行午餐，希望大家都来购票哦啦啦啦</div>
+          <div class="ticket-content-right-body-help">
+            <div class="ticket-content-right-body-count">x1</div>
+            <div class="ticket-content-right-body-price">¥20</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
