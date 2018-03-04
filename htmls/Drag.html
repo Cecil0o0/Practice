@@ -1,100 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body{
-                padding:50px;
-                font-family: Monaco
-            }
-            .wrapper{
-                display:flex;
-                flex-flow: row nowrap;
-                width:800px;
-                overflow:auto;
-            }
-            .item{
-                height:150px;
-            }
-            .WrapperForDrop{
-                width:200px;
-                height:200px;
-                margin-top:50px;
-                line-height:200px;
-                font-size:22px;
-                text-align:center;
-                border-radius:5px;
-                background:radial-gradient(circle,#fff 30px,#000 60%);
-                transition:-webkit-transform 200ms ease-in-out;
-            }
-            .dragged{
-                border:1px dashed #000;
-                transform:scale(0.7,0.7);
-            }
-        </style>
-    </head>
-    <body>
-        <div class="wrapper">
-            <img class="item" draggable="true" src="http://img02.sogoucdn.com/app/a/100520076/6c32968e5bfe4c195089ad1ab35272e5"/>
-            <img class="item" draggable="true" src="http://img04.sogoucdn.com/app/a/100520076/801dacf60c709241608c1350a8e31a5d"/>
-            <img class="item" draggable="true" src="http://img01.sogoucdn.com/app/a/100540002/16745_s_90_2_219x160.jpg"/>
-            <img class="item" draggable="true" src="http://img02.sogoucdn.com/app/a/100520076/397c3be7f123cdd920c6a4963a54fc07"/>
-            <img class="item" draggable="true" src="http://img04.sogoucdn.com/app/a/100520076/cd329e1eb098fe3955c2a4799d8101ac"/>
-        </div>
-        <div class="WrapperForDrop dragged">
-            Copy
-        </div>
-        <div id="container" class="wrapper"></div>
-        <script>
-            class dragFuncs{
-                dragStart(e){
-                    e.dataTransfer.setData('text/plain','startInfomation');
-                    e.dataTransfer.dropEffect = 'move';
-                    e.dataTransfer.effectAllowed = 'move';
-                    e.dataTransfer.setData('url',e.target.src);
-                    console.log('dragstart',e);
-                }
-                dragOver(e){
-                    e.preventDefault();
-                    console.log('dragover事件',e);
-                }
-                drop(e){
-                    // 兼容从系统中拖入文件
-                    e.preventDefault();
-                    e.target.classList.add('dragged');
-                    document.querySelector('#container').innerHTML += '<img class="item" draggable="false" src="'+e.dataTransfer.getData('url')+'"/>';
-                    console.log('drop事件',e);
-                }
-                dragEnter(e){
-                    console.log('dragenter事件',e);
-                    e.target.classList.remove('dragged');
-                }
-                dragLeave(e){
-                    e.target.classList.add('dragged');
-                    console.log('dragleave事件',e);
-                }
-                drag(e){
-                    console.log("drag事件",e);
-                }
-            }
-            let methods = new dragFuncs();
-            let items = document.querySelectorAll('.item');
-            let div = document.querySelector('.WrapperForDrop');
-            Array.prototype.slice.call(items).map(function(item,index,arr){
-                // 存储src
-                item.addEventListener('dragstart',methods.dragStart,false);
-                item.addEventListener('drag',methods.drag,false);
-            });
-            // 阻止禁止拖放默认事件
-            div.addEventListener('dragover',methods.dragOver,false);
-            // 删除视觉反馈，阻止系统文件拖放默认事件
-            div.addEventListener('drop',methods.drop,false);
-            // 增加视觉反馈
-            div.addEventListener('dragenter',methods.dragEnter,false);
-            // 删除视觉反馈
-            div.addEventListener('dragleave',methods.dragLeave,false);
-        </script>
-    </body>
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      padding: 50px;
+      font-family: Monaco
+    }
+
+    .wrapper {
+      display: flex;
+      flex-flow: row nowrap;
+      width: 800px;
+      overflow: auto;
+    }
+
+    .item {
+      height: 150px;
+    }
+
+    .WrapperForDrop {
+      width: 200px;
+      height: 200px;
+      margin-top: 50px;
+      line-height: 200px;
+      font-size: 22px;
+      text-align: center;
+      border-radius: 5px;
+      background: radial-gradient(circle, #fff 30px, #000 60%);
+      transition: -webkit-transform 200ms ease-in-out;
+    }
+
+    .dragged {
+      border: 1px dashed #000;
+      transform: scale(0.7, 0.7);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <img class="item" draggable="true" src="http://img02.sogoucdn.com/app/a/100520076/6c32968e5bfe4c195089ad1ab35272e5" />
+    <img class="item" draggable="true" src="http://img04.sogoucdn.com/app/a/100520076/801dacf60c709241608c1350a8e31a5d" />
+    <img class="item" draggable="true" src="http://img01.sogoucdn.com/app/a/100540002/16745_s_90_2_219x160.jpg" />
+    <img class="item" draggable="true" src="http://img02.sogoucdn.com/app/a/100520076/397c3be7f123cdd920c6a4963a54fc07" />
+    <img class="item" draggable="true" src="http://img04.sogoucdn.com/app/a/100520076/cd329e1eb098fe3955c2a4799d8101ac" />
+  </div>
+  <div class="WrapperForDrop dragged">
+    Copy
+  </div>
+  <div id="container" class="wrapper"></div>
+  <script>
+    class dragFuncs {
+      dragStart(e) {
+        e.dataTransfer.setData('text/plain', 'startInfomation');
+        e.dataTransfer.dropEffect = 'move';
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('url', e.target.src);
+        console.log('dragstart', e);
+      }
+      dragOver(e) {
+        e.preventDefault();
+        console.log('dragover事件', e);
+      }
+      drop(e) {
+        // 兼容从系统中拖入文件
+        e.preventDefault();
+        e.target.classList.add('dragged');
+        document.querySelector('#container').innerHTML += '<img class="item" draggable="false" src="' + e.dataTransfer.getData('url') + '"/>';
+        console.log('drop事件', e);
+      }
+      dragEnter(e) {
+        console.log('dragenter事件', e);
+        e.target.classList.remove('dragged');
+      }
+      dragLeave(e) {
+        e.target.classList.add('dragged');
+        console.log('dragleave事件', e);
+      }
+      drag(e) {
+        console.log("drag事件", e);
+      }
+    }
+    let methods = new dragFuncs();
+    let items = document.querySelectorAll('.item');
+    let div = document.querySelector('.WrapperForDrop');
+    Array.prototype.slice.call(items).map(function (item, index, arr) {
+      // 存储src
+      item.addEventListener('dragstart', methods.dragStart, false);
+      item.addEventListener('drag', methods.drag, false);
+    });
+    // 阻止禁止拖放默认事件
+    div.addEventListener('dragover', methods.dragOver, false);
+    // 删除视觉反馈，阻止系统文件拖放默认事件
+    div.addEventListener('drop', methods.drop, false);
+    // 增加视觉反馈
+    div.addEventListener('dragenter', methods.dragEnter, false);
+    // 删除视觉反馈
+    div.addEventListener('dragleave', methods.dragLeave, false);
+  </script>
+</body>
+
 </html>

@@ -1,102 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>CSS三角形大全</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="X-UA-Compatible" content="IE=edge,chrome=1">
-    </head>
-    <style>
-        body{padding:0;margin:0;}
-        body>div{padding:20px;}
-        p{
-            height:40px;
-            line-height:40px;
-            color:#000;
-            font-family: 'Monaco';
-            text-indent:25px;
-            position:relative;
-        }
-        p:before{
-            content:'';
-            display: block;
-            position:absolute;
-            left:0;
-            top:0;
-            bottom:0;
-            width:6px;
-            background-color:#6959CD;
-        }
-        pre{
-            background-color: #F6F8FA;
-            padding:20px;
-        }
-        .triangle-top{
-            height:0;
-            width:0;
-            border-left:30px solid transparent;
-            border-right:30px solid transparent;
-            border-bottom:52px solid red;
-        }
-        .triangle-bottom{
-            height:0;
-            width:0;
-            border-left:30px solid transparent;
-            border-right:30px solid transparent;
-            border-top:52px solid red;
-        }
-        .triangle-left{
-            height:0;
-            width:0;
-            border-top:30px solid transparent;
-            border-right:52px solid red;
-            border-bottom:30px solid transparent;
-        }
-        .triangle-right{
-            height:0;
-            width:0;
-            border-left:52px solid red;
-            border-top:30px solid transparent;
-            border-bottom:30px solid transparent;
-        }
-        .triangle-left-top{
-            height:0;
-            width:0;
-            border-left:30px solid red;
-            border-top:30px solid red;
-            border-right:30px solid transparent;
-            border-bottom:30px solid transparent;
-        }
-        .triangle-left-bottom{
-            height:0;
-            width:0;
-            border-left:30px solid red;
-            border-bottom:30px solid red;
-            border-right:30px solid transparent;
-            border-top:30px solid transparent;
-        }
-        .triangle-right-top{
-            height:0;
-            width:0;
-            border-left:30px solid transparent;
-            border-bottom:30px solid transparent;
-            border-right:30px solid red;
-            border-top:30px solid red;
-        }
-        .triangle-right-bottom{
-            height:0;
-            width:0;
-            border-left:30px solid transparent;
-            border-bottom:30px solid red;
-            border-right:30px solid red;
-            border-top:30px solid transparent;
-        }
-    </style>
+
+<head>
+  <title>CSS三角形大全</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  body>div {
+    padding: 20px;
+  }
+
+  p {
+    height: 40px;
+    line-height: 40px;
+    color: #000;
+    font-family: 'Monaco';
+    text-indent: 25px;
+    position: relative;
+  }
+
+  p:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background-color: #6959CD;
+  }
+
+  pre {
+    background-color: #F6F8FA;
+    padding: 20px;
+  }
+
+  .triangle-top {
+    height: 0;
+    width: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 52px solid red;
+  }
+
+  .triangle-bottom {
+    height: 0;
+    width: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 52px solid red;
+  }
+
+  .triangle-left {
+    height: 0;
+    width: 0;
+    border-top: 30px solid transparent;
+    border-right: 52px solid red;
+    border-bottom: 30px solid transparent;
+  }
+
+  .triangle-right {
+    height: 0;
+    width: 0;
+    border-left: 52px solid red;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+  }
+
+  .triangle-left-top {
+    height: 0;
+    width: 0;
+    border-left: 30px solid red;
+    border-top: 30px solid red;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+  }
+
+  .triangle-left-bottom {
+    height: 0;
+    width: 0;
+    border-left: 30px solid red;
+    border-bottom: 30px solid red;
+    border-right: 30px solid transparent;
+    border-top: 30px solid transparent;
+  }
+
+  .triangle-right-top {
+    height: 0;
+    width: 0;
+    border-left: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid red;
+    border-top: 30px solid red;
+  }
+
+  .triangle-right-bottom {
+    height: 0;
+    width: 0;
+    border-left: 30px solid transparent;
+    border-bottom: 30px solid red;
+    border-right: 30px solid red;
+    border-top: 30px solid transparent;
+  }
+</style>
+
 <body>
-<div>
-<p>Runtime Explorer : Chrome 56</p>
-<p>Toward Top Triangle</p>
-<pre>
+  <div>
+    <p>Runtime Explorer : Chrome 56</p>
+    <p>Toward Top Triangle</p>
+    <pre>
 .triangle-top{
     height:0;
     width:0;
@@ -105,23 +124,23 @@
     border-bottom:52px solid red;
 }
 </pre>
-<div class="triangle-top"></div>
-</div>
-<div>
-<p>Toward Bottom Triangle</p>
-<div class="triangle-bottom"></div>
-</div>
-<div>
-<p>Toward Left Triangle</p>
-<div class="triangle-left"></div>
-</div>
-<div>
-<p>Toward Right Triangle</p>
-<div class="triangle-right"></div>
-</div>
-<div>
-<p>Toward Left-Top Triangle</p>
-<pre>
+    <div class="triangle-top"></div>
+  </div>
+  <div>
+    <p>Toward Bottom Triangle</p>
+    <div class="triangle-bottom"></div>
+  </div>
+  <div>
+    <p>Toward Left Triangle</p>
+    <div class="triangle-left"></div>
+  </div>
+  <div>
+    <p>Toward Right Triangle</p>
+    <div class="triangle-right"></div>
+  </div>
+  <div>
+    <p>Toward Left-Top Triangle</p>
+    <pre>
 .triangle-left-top{
     height:0;
     width:0;
@@ -131,19 +150,20 @@
     border-bottom:30px solid transparent;
 }
 </pre>
-<div class="triangle-left-top"></div>
-</div>
-<div>
-<p>Toward Left-Bottom Triangle</p>
-<div class="triangle-left-bottom"></div>
-</div>
-<div>
-<p>Toward Right-Top Triangle</p>
-<div class="triangle-right-top"></div>
-</div>
-<div>
-<p>Toward Right-Bottom Triangle</p>
-<div class="triangle-right-bottom"></div>
-</div>
+    <div class="triangle-left-top"></div>
+  </div>
+  <div>
+    <p>Toward Left-Bottom Triangle</p>
+    <div class="triangle-left-bottom"></div>
+  </div>
+  <div>
+    <p>Toward Right-Top Triangle</p>
+    <div class="triangle-right-top"></div>
+  </div>
+  <div>
+    <p>Toward Right-Bottom Triangle</p>
+    <div class="triangle-right-bottom"></div>
+  </div>
 </body>
+
 </html>

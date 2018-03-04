@@ -5,7 +5,8 @@ var requestMap = {}
 $.ajaxSetup({
   beforeSend: function(xhr, settings) {
     if (/POST|PUT|DELETE/.test(settings.type)) {
-      xhr.key = settings.type + '+++' + settings.url + '+++' + settings.data
+      xhr.key =
+        settings.type + '+++' + settings.url + '+++' + settings.data
       // var keyList = []
       // for(var key in requestMap) {
       //   keyList.push(key)

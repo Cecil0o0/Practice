@@ -1,77 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>CSS渐变色大全</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="X-UA-Compatible" content="IE=edge,chrome=1">
-        <style>
-            p::before{
-                content:'';
-                display:inline-block;
-                width:5px;
-                height:40px;
-                margin-right:10px;
-                background:#000;
-            }
-            p{
-                display:flex;
-                align-items:center;
-                font-family:Monaco
-            }
-            pre{
-                background-color: #F6F8FA;
-                padding:20px;
-                width:inherit;
-                overflow:auto;
-            }
-            .dock{height:50px;width:inherit;}
-            .dock-radial-circle{height:100px;width:100px;}
-            .dock-radial-ellipse{height:100px;width:160px;}
-            .ex1{background-image: linear-gradient(135deg,#000417,#026096,#FEB872);}
-            .ex2{background-image: linear-gradient(270deg,red, orange, yellow, green, blue, indigo, violet);}
-            .ex3{background-image: linear-gradient(270deg,red, orange, yellow, green, blue, indigo, violet 70%);}
-            .ex4{background-image: linear-gradient(90deg,rgba(0,191,255,1),rgba(0,191,255,0) 70%);}
-            .ex5{background-image: radial-gradient(circle,rgb(255,255,255) 5%,rgb(0,0,0) 60%);}
-            .ex6{background-image: radial-gradient(ellipse,rgb(255,255,255) 5%,rgb(0,0,0) 70%);}
-            .ex7{background-image: radial-gradient(160px at 100% 0%,rgb(255,255,255),rgb(0,0,0));}
-            .ex8{background-image: radial-gradient(farthest-side at 10% 50%,#fff,#000);}
-            .ex9{background-image: radial-gradient(closest-side,#fff,#000);}
-            .fuzzy-circle{background-image: radial-gradient(16px, #000000 0%, #000000 14px, rgba(0, 0, 0, 0.3) 18px, rgba(0, 0, 0, 0) 19px);}
-        </style>
-    </head>
-    <body>
-        <p>Runtime Explorer : Chrome 56</p>
-        <p>Left To Right (Linear Gradient) </p>
-<pre>
+
+<head>
+  <title>CSS渐变色大全</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="X-UA-Compatible" content="IE=edge,chrome=1">
+  <style>
+    p::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 40px;
+      margin-right: 10px;
+      background: #000;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      font-family: Monaco
+    }
+
+    pre {
+      background-color: #F6F8FA;
+      padding: 20px;
+      width: inherit;
+      overflow: auto;
+    }
+
+    .dock {
+      height: 50px;
+      width: inherit;
+    }
+
+    .dock-radial-circle {
+      height: 100px;
+      width: 100px;
+    }
+
+    .dock-radial-ellipse {
+      height: 100px;
+      width: 160px;
+    }
+
+    .ex1 {
+      background-image: linear-gradient(135deg, #000417, #026096, #FEB872);
+    }
+
+    .ex2 {
+      background-image: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+    }
+
+    .ex3 {
+      background-image: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet 70%);
+    }
+
+    .ex4 {
+      background-image: linear-gradient(90deg, rgba(0, 191, 255, 1), rgba(0, 191, 255, 0) 70%);
+    }
+
+    .ex5 {
+      background-image: radial-gradient(circle, rgb(255, 255, 255) 5%, rgb(0, 0, 0) 60%);
+    }
+
+    .ex6 {
+      background-image: radial-gradient(ellipse, rgb(255, 255, 255) 5%, rgb(0, 0, 0) 70%);
+    }
+
+    .ex7 {
+      background-image: radial-gradient(160px at 100% 0%, rgb(255, 255, 255), rgb(0, 0, 0));
+    }
+
+    .ex8 {
+      background-image: radial-gradient(farthest-side at 10% 50%, #fff, #000);
+    }
+
+    .ex9 {
+      background-image: radial-gradient(closest-side, #fff, #000);
+    }
+
+    .fuzzy-circle {
+      background-image: radial-gradient(16px, #000000 0%, #000000 14px, rgba(0, 0, 0, 0.3) 18px, rgba(0, 0, 0, 0) 19px);
+    }
+  </style>
+</head>
+
+<body>
+  <p>Runtime Explorer : Chrome 56</p>
+  <p>Left To Right (Linear Gradient) </p>
+  <pre>
 .dock{height:50px;width:inherit;}
 .ex1{background: linear-gradient(90deg,#000417,#026096,#FEB872);}
 </pre>
-        <div class="dock ex1"></div>
-        <p>Color Average Distribution (Linear Gradient) </p>
-        <div class="dock ex2"></div>
-        <p><span style="color:red;margin-right:10px;"> Not </span> Color Average Distribution (Linear Gradient) </p>
-        <div class="dock ex3"></div>
-        <p>Transparency (Linear Gradient) </p>
-        <div class="dock ex4"></div>
-        <p>Circle (Radial Gradient) </p>
-        <div class="dock-radial-ellipse ex5"></div>
-        <p>Ellipse (Radial Gradient) </p>
-        <div class="dock-radial-ellipse ex6"></div>
-        <p>Size at Point (Radial Gradient) </p>
-<pre>
+  <div class="dock ex1"></div>
+  <p>Color Average Distribution (Linear Gradient) </p>
+  <div class="dock ex2"></div>
+  <p>
+    <span style="color:red;margin-right:10px;"> Not </span> Color Average Distribution (Linear Gradient) </p>
+  <div class="dock ex3"></div>
+  <p>Transparency (Linear Gradient) </p>
+  <div class="dock ex4"></div>
+  <p>Circle (Radial Gradient) </p>
+  <div class="dock-radial-ellipse ex5"></div>
+  <p>Ellipse (Radial Gradient) </p>
+  <div class="dock-radial-ellipse ex6"></div>
+  <p>Size at Point (Radial Gradient) </p>
+  <pre>
 .dock-radial-ellipse{height:100px;width:160px;}
 .ex7{background-image: radial-gradient(160px at 100% 0%,rgb(255,255,255),rgb(0,0,0));}
 </pre>
-        <div class="dock-radial-ellipse ex7"></div>
-        <p>Farthest-side (Radial Gradient) 以最远边为到圆心的距离作为半径</p>
-        <div class="dock-radial-ellipse ex8"></div>
-        <p>Closest-side (Radial Gradient) 以最近边为到圆心的距离作为半径 </p>
-        <div class="dock-radial-ellipse ex9"></div>
-        <p>Fuzzy Circle (Copy From MDN)</p>
-<pre>
+  <div class="dock-radial-ellipse ex7"></div>
+  <p>Farthest-side (Radial Gradient) 以最远边为到圆心的距离作为半径</p>
+  <div class="dock-radial-ellipse ex8"></div>
+  <p>Closest-side (Radial Gradient) 以最近边为到圆心的距离作为半径 </p>
+  <div class="dock-radial-ellipse ex9"></div>
+  <p>Fuzzy Circle (Copy From MDN)</p>
+  <pre>
 .fuzzy-circle{background-image: radial-gradient(16px, #000000 0%, #000000 14px, rgba(0, 0, 0, 0.3) 18px, rgba(0, 0, 0, 0) 19px);}
 </pre>
-        <div class="dock-radial-circle fuzzy-circle"></div>
-    </body>
+  <div class="dock-radial-circle fuzzy-circle"></div>
+</body>
+
 </html>
