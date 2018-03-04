@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  canvas {
+    box-shadow: 0 0 5px #aaa;
+  }
+</style>
+
+<body>
+  <canvas id="canvas">
+    当前浏览器不支持canvas元素。
+    <a href="www.google.com">请使用谷歌浏览器</a>
+  </canvas>
+
+  <script>
+
+    let c = document.querySelector('#canvas'),
+      ctx = c.getContext('2d');
+    let w = c.width = c.parentElement.clientWidth;
+    let h = c.height = 400;
+
+    // 抗锯齿
+    if (window.devicePixelRatio) {
+      c.style.width = w + 'px'
+      c.style.height = h + 'px'
+      c.width = w * window.devicePixelRatio
+      c.height = h * window.devicePixelRatio
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+    }
+
+    // 随机新建球
+    var arr = []
+    for (let i = 0, num = 15; i < num; i++) {
+      arr.push(new Ball())
+    }
+
+    function drawBack() {
+      // 绘制背景
+      ctx.fillStyle = 'rgb(0,153,195)'
+      ctx.beginPath()
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    function drawLine(from = { x: 100, y: 0 }, to = { x: 200, y: 200 }, opacity = 0.8) {
+      ctx.beginPath()
+      ctx.strokeStyle = 'rgba(255,255,255,' + opacity + ')'
+      ctx.moveTo(from.x, from.y)
+      ctx.lineTo(to.x, to.y)
+      ctx.lineCap = 'round'
+      ctx.lineWidth = 0.05
+      ctx.stroke()
+    }
+
+    function drawCircle(x = 50, y = 50, r) {
+      ctx.beginPath()
+      ctx.fillStyle = 'rgba(77,184,213,.6)'
+      ctx.arc(x, y, r, 0, 2 * Math.PI)
+      ctx.fill()
+    }
+
+    function computedLines() {
+      var bs = arr;
+      var lines = [];
+      for (let i = 0, l1 = arr.length; i < l1; i++) {
+        for (let j = 0, l2 = arr.length; j < l2; j++) {
+          var dis = distance(bs[i], bs[j])
+          if (dis < 150 && dis > 0) {
+            drawLine({
+              x: bs[i].x, y: bs[i].y
+            }, {
+                x: bs[j].x, y: bs[j].y
+              }, dis / 150)
+            // 透明度颗粒度要细一点
+          }
+        }
+      }
+    }
+
+    function distance(p1, p2) {
+      return Math.sqrt(Math.abs(Math.pow(p1.x - p2.x, 2) - Math.pow(p1.y - p2.y, 2)));
+    }
+
+    // Ball构造器
+    function Ball() {
+      this.r = Math.random() * 15 + 0.5;
+      this.x = Math.random() * (w - 20) + 10;
+      this.y = Math.random() * (h - 20) + 10;
+      this.dir = {
+        x_c: Math.random() * 2 - 1,
+        y_c: Math.random() * 2 - 1
+      }
+      this.speed = Math.random() * 0.7
+    }
+
+    Ball.prototype.move = function () {
+      this.x += this.dir.x_c * this.speed
+      this.y += this.dir.y_c * this.speed
+    }
+
+    Ball.prototype.draw = function () {
+      drawCircle(this.x, this.y, this.r)
+    }
+
+    Ball.prototype.collisionDetection = function () {
+      // 碰到左、右边框
+      if (this.x - this.r <= 0 || this.x + this.r >= w) {
+        this.dir.x_c = -this.dir.x_c
+      }
+      // 碰到上、下边框
+      if (this.y - this.r <= 0 || this.y + this.r >= h) {
+        this.dir.y_c = -this.dir.y_c
+      }
+    }
+
+    // 每一帧
+    function oneFrame() {
+      // 清除画布
+      ctx.height = h
+      // 画背景
+      drawBack()
+      // 画球
+      arr.forEach(function (ball, index, arr) {
+        ball.move()
+        ball.collisionDetection()
+        ball.draw()
+      })
+      // 画线
+      computedLines()
+      requestAnimationFrame(oneFrame)
+    }
+    requestAnimationFrame(oneFrame)
+  </script>
+</body>
+
+</html>
