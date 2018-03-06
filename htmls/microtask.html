@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>task and micro-task</title>
+</head>
+<body>
+  <script>
+    setTimeout(() => {
+      console.log(1)
+    }, 0)
+
+    function t1 (a, cb) {
+      console.log(2)
+      cb && cb()
+    }
+
+    var p = new Promise((resolve, reject) => {
+      console.log(3)
+      resolve()
+    })
+
+    Promise.resolve().then(() => {
+      console.log(4)
+    }).then(() => {
+      console.log(5)
+    }).then(() => {
+      console.log(8)
+    }).then(() => {
+      console.log(9)
+    })
+
+    p.then(() => {
+      console.log(6)
+    }).then(() => {
+      console.log(10)
+    })
+
+    p.then(() => {
+      console.log(11)
+    }).then(() => {
+      console.log(12)
+    })
+
+    t1(1, () => {
+      console.log(7)
+    })
+
+  </script>
+</body>
+</html>
