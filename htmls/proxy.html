@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Proxy</title>
+</head>
+<body>
+  <script>
+    var lib = {
+      pipe () {
+        var _this = this
+        return value => {
+          var funcStack = []
+          var oproxy = new Proxy({}, {
+            get (pipeObj, fnName) {
+              if (fnName === 'result') {
+                return funcStack.reduce((value, fn) => {
+                  return fn(value)
+                }, value)
+              }
+              if (fnName === 'end') {
+                funcStack.splice(-1, 1)
+              } else {
+                !!_this[fnName] && funcStack.push(_this[fnName])
+              }
+              return oproxy
+            }
+          })
+          return oproxy
+        }
+      },
+      doubledouble: n => n ** 2,
+      pow: n => n * n,
+      reverseInt: n => n.toString().split('').reverse().join('') | 0
+    }
+
+    console.log(lib.pipe()(3).doubledouble.pow.reverseInt.result)
+  </script>
+</body>
+</html>
