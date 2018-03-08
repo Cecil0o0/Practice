@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSSNEXT</title>
+  <style>
+    html {
+      font-size: 14px;
+      font-family: 'Monaco'
+    }
+
+    body>* {
+      margin-bottom: 30px;
+      color: #fff;
+    }
+
+    /* custom prop(s) */
+
+    :root {
+      --height: 10px;
+      --color: #333333;
+      --light-color: color(var(--color), alpha(-10%));
+      --blackness-color: color(var(--color), blackness(80%));
+      --small-color: gray(20);
+      --danger-theme: {
+        color: white;
+        background-color: linear-gradient(90deg, red, #fff);
+      }
+    }
+
+    body {
+      background-color: var(--color);
+    }
+
+    .danger {
+      @apply --danger-theme;
+    }
+
+    /* reduced calc() */
+
+    :root {
+      --fontSize: 1rem;
+    }
+
+    .calc {
+      font-size: calc(var(--fontSize) * 2);
+      color: #999;
+    }
+
+    /* custom media queries */
+
+    /* not supported */
+
+    @custom-media --small-viewport (max-width: 1000px);
+
+    @media (--small-viewport) {
+      body {
+        background-color: var(--small-color)
+      }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        background-color: var(--small-color)
+      }
+    }
+
+    /* custom selectors */
+
+    /* not supported */
+
+    @custom-selector :--button button,
+    .button :--button {
+      background-color: var(--small-color)
+    }
+
+    /* nesting */
+
+    .nest-box {
+      & nested {
+        color: white
+      }
+    }
+
+    /* image-set */
+
+    /* not supported */
+
+    .foo {
+      background-image: -webkit-image-set(url('http://img06.tooopen.com/images/20180208/tooopen_sy_233776453876.jpg') 1x,
+      url('http://img02.tooopen.com/images/20160106/tooopen_sy_153531931639.jpg') 2x,
+      url('http://img07.tooopen.com/images/20170620/tooopen_sy_214579652271.jpg') 600dpi);
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="danger">
+      @apply --danger-theme;
+    </div>
+  </div>
+
+  <div>
+    <div class="calc">
+      calc(var(--fontSize) * 2)
+    </div>
+  </div>
+
+  <div>
+    <div class="button">custom-selector</div>
+  </div>
+
+  <div>
+    <div class="nest-box">
+      nest-box
+      <div class="nested">nested</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="foo">-webkit-image-set</div>
+  </div>
+</body>
+
+</html>
