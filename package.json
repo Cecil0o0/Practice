@@ -4,7 +4,8 @@
   "description": "- It's a cluster of mine practical collections - Welcome to fork and push compelling practice about front-end",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node/wangyiBlock/blockchain.bundle.js",
+    "build": "rollup -c node/wangyiBlock/rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,19 @@
     "url": "https://github.com/Cecil0o0/Practice/issues"
   },
   "homepage": "https://github.com/Cecil0o0/Practice#readme",
-  "dependencies": {}
+  "dependencies": {
+    "bignumber.js": "^6.0.0",
+    "js-sha256": "^0.9.0",
+    "lodash": "^4.17.5",
+    "rollup-plugin-babel": "^3.0.3",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "rollup": "^0.56.5",
+    "rollup-plugin-commonjs": "^9.0.0",
+    "rollup-plugin-node-resolve": "^3.2.0"
+  }
 }

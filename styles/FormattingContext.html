@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html {
+      font-size: 14px;
+      font-family: 'Monaco'
+    }
+    body {
+      padding:0;
+      margin:0;
+    }
+  </style>
+</head>
+<body>
+  <h1>· BFC</h1>
+  <p>
+    <span style="color:#04a6e9;">BFC</span>(Block Formatting Context)是一个有独立渲染规则、封闭渲染环境的上下文环境。在其渲染区域内部，从此元素顶部开始所有子元素按照其自身的布局规则进行排列：块级元素占一行，水平方向上margin可相互隔开，垂直方向上margin会合并，另外行内元素从左至右依次排列。从这可以看出和文档流的布局方式类似，但不完全一致，下面我将一一介绍其特性
+  </p>
+
+  <h2>特性1：BFC元素内部渲染不会影响到外部元素</h2>
+  <div>
+    <div style="background-color:red">
+      <div style="margin-top:20px;background-color:aqua;">margin-top:20px</div>
+      not BFC element
+    </div>
+    <br>
+    <div style="overflow:hidden;background-color:red;">
+      <div style="margin-top:20px;background-color:aqua;">margin-top:20px</div>
+      BFC element
+    </div>
+  </div>
+
+  <h2>特性2：BFC元素内部可识别浮动元素</h2>
+  <div>
+    <div style="overflow:hidden;margin-bottom:20px">
+      not BFC element
+      <div style="border:1px solid red;">
+        <div style="float:left;">float:left</div>
+      </div>
+    </div>
+
+    BFC element
+    <div style="border:1px solid red;overflow: auto">
+      <div style="float:left">float:left</div>
+    </div>
+  </div>
+
+  <h2>特性3：占据文档流的BFC元素，可识别兄弟浮动元素</h2>
+  <div>
+    <div style="overflow:hidden;margin-bottom:20px;">
+      <div style="border:1px solid red">
+        <div style="float:left;">float:left</div>
+        <div style="background-color:aqua;width:300px;">not BFC element (width:300px)</div>
+      </div>
+    </div>
+    <div style="border:1px solid red;margin-bottom:20px;">
+      <div style="float:left;">float:left</div>
+      <div style="background-color:aqua;overflow:hidden;height:20px;width:300px;">BFC element (width:300px)</div>
+    </div>
+    <div style="border:1px solid red;margin-bottom:20px;">
+      <div style="float:left;">float:left</div>
+      <div style="background-color:aqua;overflow:hidden;height:20px;width:auto;">BFC element (width:auto)</div>
+    </div>
+    <div style="border:1px solid red">
+      <div style="float:left;">float:left</div>
+      <div style="background-color:aqua;overflow:hidden;height:20px;width:100%;">BFC element (width:100%)</div>
+    </div>
+  </div>
+
+  <p>如何创建BFC？<span style="color:#04a6e9;">BFC</span>是主动的显式的创建，常见的创建方法有一下几种（详见MDN）</p>
+  <div>
+    <ul>
+      <li>root元素</li>
+      <li>overflow值不为visible</li>
+      <li>浮动元素</li>
+      <li>position为absolute和fixed</li>
+      <li>display: table-cell</li>
+    </ul>
+  </div>
+
+  <h1>· IFC</h1>
+  <p>
+    <span style="color:#04a6e9">IFC</span>(Inline Formatting Context)是由一个一个的inline-level元素构成。其作用区域内每一个行其实都有一个虚拟的矩形框包裹该行所有元素，称之为行框。所以其作用区域是由一个一个的line box构成。IFC特性有如下3点：<br>
+    <div>
+      <ul>
+        <li>IFC作用区域内元素由左至右，从上到下依次排列</li>
+        <li>IFC作用区域内所有的行内元素都可用vertical-align来设定其垂直方向上的对齐方式</li>
+        <li>IFC包含内部元素的矩形框，我们称之为行框（line box）</li>
+      </ul>
+    </div>
+    <div>
+      如何创建IFC？IFC是隐式的，被动的创建。当其内部元素全部为行内元素（如文本节点，inline，inline-block）时隐式创建
+    </div>
+  </p>
+
+
+  <h1>· CB</h1>
+  <p>
+    <span style="color:#04a6e9">CB</span>(Containing Block)具有“相对坐标系”作用的祖先元素其容纳区域，称为包含块
+    <div>
+      Specially，relative定位元素，其尺寸属性相对于包含块，但是其偏移属性相对于其文档流中原来的位置
+    </div>
+  </p>
+
+
+  <h1>· ICB</h1>
+  <p>
+    <span style="color:04a6e9;">ICB</span>(Initial Containg Block)包裹html元素的容纳区域，称为初始包含块
+  </p>
+</body>
+</html>

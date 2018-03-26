@@ -3,6 +3,7 @@
     "space-before-function-paren": 0
   },
   "parserOptions": {
-    "ecmaVersion": 8
+    "ecmaVersion": 8,
+    "sourceType": "module"
   }
 }
