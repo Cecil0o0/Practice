@@ -93,7 +93,64 @@
       background-image: -webkit-image-set(url('http://img06.tooopen.com/images/20180208/tooopen_sy_233776453876.jpg') 1x,
       url('http://img02.tooopen.com/images/20160106/tooopen_sy_153531931639.jpg') 2x,
       url('http://img07.tooopen.com/images/20170620/tooopen_sy_214579652271.jpg') 600dpi);
-      height: 100px;
+    }
+
+    /* rebeccapurple color */
+
+    .rebeccapurple {
+      color: rebeccapurple;
+    }
+
+    /* font-variant property */
+
+    .fontVariantCaps {
+      font-variant-caps: small-caps;
+      /* font-variant-caps: unicase; */
+    }
+
+    /* font-variant-numeric */
+
+    .fontVariantNumeric {
+      font-variant-numeric: lining-nums;
+    }
+
+    /* blur */
+
+    .blur {
+      filter: blur(2px);
+    }
+
+    /* :any-link */
+
+    .anylink :-webkit-any-link {
+      background-color: transparent;
+      color: rebeccapurple;
+      text-decoration: none;
+    }
+
+    /* matches() -> wekit内核中 :-webkit-any() */
+
+    :-webkit-any(.matches) .special {
+      color: red;
+      cursor: pointer;
+    }
+
+    /* attribute case insensitive */
+    [self=nodejs i] {
+      color: rebeccapurple;
+    }
+
+    /* rgb */
+    /* not supported */
+    .rgb {
+      background-color: rgb(100 222.2 100.9 / 30%);
+    }
+
+    /* hsl */
+    /* not supported */
+    .hsl {
+      color: hsl(90deg 90% 70%);
+      background-color: hsl(300grad 25% 15% / 70%);
     }
   </style>
 </head>
@@ -124,6 +181,60 @@
 
   <div>
     <div class="foo">-webkit-image-set</div>
+  </div>
+
+  <div>
+    <div class="rebeccapurple">color: rebeccapurple;</div>
+  </div>
+
+  <div>
+    <div class="fontVariantCaps">font-variant-caps: small-caps;</div>
+  </div>
+
+  <div>
+    <div class="fontVariantNumeric">font-variant-numeric: lining-nums;</div>
+  </div>
+
+  <div>
+    <div class="blur">filter: blur(1px)</div>
+  </div>
+
+  <div>
+    <div class="anylink">
+      :any-link
+      <a href="https://welian.com">https://www.welian.com</a>
+      <a href="https://baidu.com">https://www.baidu.com</a>
+    </div>
+  </div>
+
+  <div>
+    <div class="matches">
+      <div class="special">
+        :-webkit-any(.matches) .special {
+          color: red;
+          cursor: pointer;
+        }
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="caseInsensitive" self="NODEJS">
+      [self=nodejs i] {
+        color: rebeccapurple;
+      }
+    </div>
+  </div>
+
+  <div>
+    <div class="rgb">background-color: rgb(100 222.2 100.9 / 30%);</div>
+  </div>
+
+  <div>
+    <div class="hsl">
+      color: hsl(90deg 90% 70%);
+      background-color: hsl(300grad 25% 15% / 70%);
+    </div>
   </div>
 </body>
 

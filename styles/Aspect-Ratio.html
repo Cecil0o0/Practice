@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* 固定宽高比 */
+    [aspectratio-box] {
+      position: relative;
+      height: 0;
+      padding-top: 56.25%;
+      background-color: #999;
+      overflow: hidden;
+    }
+    [aspectratio-content] {
+      position: absolute;
+      top: 0;
+      height: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+    /* 固定初始宽高比，高度可被撑开 */
+    .aspect-ratio-box {
+      background: orange;
+      margin-top: 1vh;
+    }
+    .aspect-ratio-box::before {
+      content: "";
+      float: left;
+      height: 0;
+      padding-top: calc(291.44 / 1127.34 * 100%);
+    }
+    .aspect-ratio-box::after {
+      content: '';
+      clear: both;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div aspectratio-box>
+    <div aspectratio-content></div>
+  </div>
+  <div class="aspect-ratio-box">
+    <div class="aspect-ratio-box-inner"></div>
+  </div>
+  <script>
+    document.querySelector('[aspectratio-content]').innerHTML = (function(){
+      return '按时空间的哈克龙事件活动卡金黄色的卡金黄色的了客家话'.repeat(25)
+    })()
+    document.querySelector('.aspect-ratio-box-inner').innerHTML = (function(){
+      return '按时空间的哈克龙事件活动卡金黄色的卡金黄色的了客家话'.repeat(9)
+    })()
+  </script>
+</body>
+</html>
