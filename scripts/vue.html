@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue</title>
+</head>
+<body>
+  <script>
+    var vm = {}
+    vm._data = {
+      a: 1,
+      arr: [1,2,{
+        as: 212
+      },4,5],
+      oo: {
+        a: 2,
+        b: 3
+      }
+    }
+
+    function VNode() {}
+
+    function observe (obj) {
+      Object.keys(obj).forEach(k => {
+        defineReactive(obj, k)
+        obj.__ob__ || (obj.__ob__ = {})
+        obj.__ob__[k] = obj[k]
+      })
+    }
+
+    function defineReactive(obj, key, val) {
+      if (typeof obj !== 'object' || obj instanceof VNode) {
+        return
+      }
+      val = obj[key]
+      if (val instanceof Array) {
+        val.forEach(v => observe(v))
+      } else if (typeof val === 'object') {
+        observe(val)
+      }
+      Object.defineProperty(obj, key, {
+        anumerable: true,
+        configurable: true,
+        get() {
+          return val
+        },
+        set(newVal) {
+          if (newVal === val || (newVal !== newVal && val !== val)) {
+            return
+          }
+          val = newVal
+        }
+      })
+    }
+
+    const noop = () => {}
+
+    const sharedDescriptor = {
+      enumerable: true,
+      configurable: true,
+      get: noop,
+      set: noop
+    }
+
+    function proxy(target, sourceKey, key) {
+      sharedDescriptor.get = function proxyGetter() {
+        return this[sourceKey][key]
+      }
+      sharedDescriptor.set = function proxySetter(value) {
+        this[sourceKey][key] = value
+      }
+
+      Object.defineProperty(target, key, sharedDescriptor)
+    }
+
+    function proxyObject(source) {
+      Object.keys(source).forEach(k => {
+        proxy(vm, '_data', k)
+      })
+    }
+
+    observe(vm._data)
+    proxyObject(vm._data)
+    console.log(vm)
+  </script>
+</body>
+</html>

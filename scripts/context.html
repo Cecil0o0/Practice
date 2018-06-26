@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>this</title>
+</head>
+<body>
+  <script>
+    var name = '亚索'
+    // 1-------------------------------------------------------
+    var obj = {
+      name: '锐雯',
+      readName: function() {
+        console.log(this.name)
+      }
+    }
+    obj.readName()
+    // bind用法
+    obj.readName.bind(this)  //invalid
+    var otherFn = obj.readName
+    otherFn.bind(this)
+    otherFn()
+    // call用法
+    obj.readName.call(this)
+    // apply用法
+    obj.readName.apply(this)
+    // 2--------------------------------------------------------
+    function readName() {
+      (function ad() {
+        console.log(this.name)
+      })()
+    }
+    readName()
+    // 3-------------------------------------------------------
+    function Person(name) {
+      this.name = name
+    }
+    console.log(new Person(name).name)
+    // 4-------------------------------------------------------
+    var obj2 = {
+      readName: () => {
+        console.log(this.name)
+      }
+    }
+    obj2.readName()
+    obj2.readName.call(this)
+
+    function a() {
+      this.name = '锐萌萌'
+      return () => {
+        console.log(this)
+      }
+    }
+
+    // 箭头函数
+    var bbb = {
+      name: '锐萌萌',
+      normalFn: function b () {
+        return () => {
+          console.log(this.name)
+        }
+      },
+      arrowFn: function b () {
+        let _this = this
+        return function () {
+          console.log(_this.name)
+        }
+      }
+    }
+    bbb.normalFn()()
+    bbb.arrowFn()()
+  </script>
+</body>
+</html>
