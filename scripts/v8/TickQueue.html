@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>TickQueue</title>
+  <title>NextTick Queue</title>
   <style>
     p::before {
       content: '';
@@ -25,7 +25,10 @@
 </head>
 
 <body>
-  <p>v8引擎的next tick queue</p>
+  <p>v8引擎的nextTick queue</p>
+  <div>
+    next tick队列实现为由固定大小的循环缓冲区（一个或多个）构成的单链表
+  </div>
   <div id="wrapper"></div>
   <script>
     var sum = 1e2
