@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Perspective Demo</title>
+  <style>
+    p::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 40px;
+      margin-right: 10px;
+      background: #000;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      font-family: Monaco
+    }
+
+    :root {
+      --prespective: 300px;
+    }
+
+    html {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .front {
+      background: rgb(0, 255, 255, .1);
+      transform: translateZ(50px);
+    }
+
+    .back {
+      background: rgba(0, 255, 0, 1);
+      color: black;
+      transform: rotateY(180deg) translateZ(50px);
+    }
+
+    .right {
+      background: rgba(196, 0, 0, 0.7);
+      transform: rotateY(90deg) translateZ(50px);
+    }
+
+    .left {
+      background: rgba(0, 0, 196, 1);
+      transform: rotateY(-90deg) translateZ(50px);
+    }
+
+    .top {
+      background: rgba(196, 196, 0, 0.7);
+      transform: rotateX(90deg) translateZ(50px);
+    }
+
+    .bottom {
+      background: rgba(196, 0, 196, 0.7);
+      transform: rotateX(-90deg) translateZ(50px);
+    }
+
+    .face {
+      display: block;
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: none;
+      line-height: 100px;
+      font-family: sans-serif;
+      font-size: 60px;
+      color: white;
+      text-align: center;
+    }
+
+    .cube {
+      width: 100%;
+      height: 100%;
+      backface-visibility: visible;
+      perspective: var(--prespective);
+      transform-style: preserve-3d;
+      -webkit-backface-visibility: visible;
+      -webkit-perspective: var(--prespective);
+      -webkit-transform-style: preserve-3d;
+      perspective-origin: center;
+      transition: all .2s ease;
+    }
+
+    .container {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="text/html" id="tpl">
+    <div>
+      <p>正方体Model</p>
+        <div style="margin-bottom: 50px;">
+          和three.js中perspectiveCamera机制类似
+          <br> perspective决定相机z轴 <input type="text" v-model="perspective"/>
+          <br> perspective-origin决定相机x轴与y轴 （只能使用left,center,right以及&lt;length-percentage&gt;）<input type="text" v-model="perspectiveOrigin"/>
+        </div>
+        <div>
+          <div class="cube container" :style="{ perspective, perspectiveOrigin }">
+            <div class="face top"></div>
+            <div class="face right"></div>
+            <div class="face bottom"></div>
+            <div class="face left"></div>
+            <div class="face back"></div>
+            <div class="face front"></div>
+          </div>
+        </div>
+    </div>
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      template: '#tpl',
+      data() {
+        return {
+          perspective: '300px',
+          perspectiveOriginX: 50,
+          perspectiveOriginY: 50
+        }
+      },
+      computed: {
+        perspectiveOrigin () {
+          return `${this.perspectiveOriginX}% ${this.perspectiveOriginY}%`
+        }
+      },
+      methods: {
+        frame () {
+          let dir = 1
+          const self = this
+          return function inner () {
+            var move = () => {
+              self.perspectiveOriginX += 5 * dir
+            }
+            if (self.perspectiveOriginX >= 200) {
+              dir = -1
+            } else if (self.perspectiveOriginX <= -200) {
+              dir = 1
+            }
+            move()
+            requestAnimationFrame(inner)
+          }
+        }
+      },
+      mounted() {
+        this.frame()()
+      }
+    })
+  </script>
+</body>
+
+</html>
