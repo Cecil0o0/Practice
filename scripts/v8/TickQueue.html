@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TickQueue</title>
+  <style>
+    p::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 40px;
+      margin-right: 10px;
+      background: #000;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      font-family: Monaco
+    }
+  </style>
+</head>
+
+<body>
+  <p>v8引擎的next tick queue</p>
+  <div id="wrapper"></div>
+  <script>
+    var sum = 1e2
+
+    function appendText (str) {
+      document.querySelector('#wrapper').innerHTML += str + '<br/>'
+    }
+
+    setTimeout(() => {
+      appendText('macrotask')
+    }, 0)
+
+    for (var i = 0; i <= sum; i++) {
+      Promise.resolve().then(() => {
+        appendText('microtask')
+      })
+    }
+
+  </script>
+</body>
+
+</html>
