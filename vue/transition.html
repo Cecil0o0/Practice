@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Transition</title>
+  <style>
+    p::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 40px;
+      margin-right: 10px;
+      background: #000;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+      font-family: Monaco
+    }
+
+    .slide-fade-enter,
+    .slide-fade-leave-to {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    .slide-fade-enter-to,
+    .slide-fade-leave {
+      opacity: 1;
+    }
+    .slide-fade-enter-active,
+    .slide-fade-leave-active {
+      transition: all .2s ease;
+    }
+
+    /* .flip-move {
+      transition: all 3s linear;
+    } */
+    .flip-enter, .flip-leave-to {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    .flip-enter-active,
+    .flip-leave-active {
+      position: absolute;
+    }
+
+    .tp {
+      position: relative;
+    }
+
+    .tp div{
+      margin-right: 30px;
+      display: inline-block;
+      transition: all .3s linear;
+    }
+
+    .tp div.vertical {
+      display: block;
+    }
+
+    pre {
+      white-space:pre-line;
+    }
+  </style>
+</head>
+<body>
+  <p>通过阅读vue transition模块，transition组件以及transition-util工具类，理清vue实现的transition组件基本原则</p>
+
+  <p>transition基本使用</p>
+  <div id="app1">
+    <input type="checkbox" v-model="showDiv">
+    <transition name="slide-fade">
+      <div v-show="showDiv" style="display:none;width:100px;height:100px;background-color:aqua;"></div>
+    </transition>
+  </div>
+
+  <p>transition基本原理</p>
+
+  <pre>
+    主要分为`enter`与`leave`两大类，分别各自对应3个样式类(enter,enter-to,enter-active)以及4个js生命周期钩子(beforeEnter,enter,afterEnter,leave)。
+    执行顺序为
+    1. 解析transition抽象组件，并找到其子组件或子孙组件中第一个Real Component（非functional和abstract），为其注入transition或animation相关信息
+    2. 并配合v-show指令，v-if条件渲染或者动态组件对组件进行过渡效果（或Motion）处理
+    3. 显示时，对Real DOM增加enter,enter-active类，下一帧（raf或者fallback到setTimeout）将enter移除同时添加enter-to类（如果有对transition组件配置了appear属性，则使用（once）appear相对应的3个样式类做enter处理）
+    4. 隐藏时，对Real DOM增加leave,leave-active类，下一帧将leave移除同时添加leave-to类，然后后续的display:none或者移除DOM节点的操作
+  </pre>
+
+  <p>transition-group基本使用</p>
+  <div id="app2">
+    <button @click="add">add</button>
+    <button @click="remove">remove</button>
+    <button @click="shuffle">shuffle</button>
+    <button @click="vertical === 'vertical' ? vertical = '' : vertical = 'vertical'">toggle</button>
+    <transition-group tag="div" name="flip" class="tp">
+      <div v-for="(item, index) in list" :key="item" :class="[vertical]">{{item}}</div>
+    </transition-group>
+  </div>
+
+  <p>transition-group基本原理</p>
+
+  <pre>
+    其基本用法与transition一样。但是缺乏变化中样式过渡效果。
+    这里用到了业界非常有名的CSS动画解决方案----flip。它的基本思路是利用transform、opacity两种属性实现大部分过渡效果。具体步骤如下
+
+    1. `F` 通过DOM的getBoundingClientRect方法获取元素初始大小与距视口相对位置，通过getComputedStyle获取元素颜色等CSS属性（千万不要包含margin,padding等对文档流有影响的样式）
+    2. `L` 以某种方式，或添加class或修改style，获取元素终态，以相同方法获取相同属性值（这个时间很短暂）
+    3. `I` 通过计算，用transform与opacity属性把处于终态元素设置成初始态（这会有个复杂的计算过程）
+    4. `P` 通过移除transform与opacity样式以开始动画
+
+    transition-group相较于transition还有个不同点是，有v-move特性，它会应用在元素的改变定位的过程中
+
+    另外需要注意的是每个元素（组件）必须有一个唯一的key绑定，否则动画效果将失效
+  </pre>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.14.1/lodash.min.js"></script>
+  <script>
+    new Vue({
+      name: 'transition-demo',
+      el: '#app1',
+      data () {
+        return {
+          showDiv: false
+        }
+      }
+    })
+
+    new Vue({
+      name: 'transition-group-demo',
+      el: '#app2',
+      data () {
+        return {
+          list: Array.from(new Set([1,32,3,14,12,31,2,15,24,5,15,245,20,15,242])),
+          initMax: 0,
+          vertical: 'vertical'
+        }
+      },
+      methods: {
+        add () {
+          this.list.push(++this.initMax)
+        },
+        remove () {
+          const start = Math.floor(Math.random() * this.list.length)
+          this.list.splice(start, 1)
+        },
+        shuffle () {
+          this.list = _.shuffle(this.list)
+        }
+      },
+      created () {
+        this.initMax = Math.max(...this.list)
+      }
+    })
+  </script>
+</body>
+</html>
