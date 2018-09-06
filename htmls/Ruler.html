@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ruler</title>
+  <style>
+    body {
+      margin-top: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="horizontalRuler"></div>
+  <div id="verticalRuler"></div>
+  <script>
+    const dpr = window.devicePixelRatio;
+    console.log(dpr);
+    function initRuler(ruler, type = 'horizontal') {
+      let options = {
+        id: 'horizontalRuler',
+        height: 16,
+        width: 1000,
+        maxValue: 500,
+        minValue: 0,
+        value: 50,
+        precision: 20,
+        gutter: 10,
+        orientation: 'horizontal',
+        scale: {
+          width: 2,
+          height: 16,
+          lineColor: '#E4E4E4',
+          fontColor: '#999',
+          fontSize: 12,
+          per: 5
+        },
+        division: {
+          width: 2,
+          height: 5,
+          lineColor: '#E4E4E4'
+        }
+      };
+      ObjectDeepSet(options, ruler);
+      const { id, width, height, scale, gutter, minValue, maxValue, precision, division } = options;
+      if (type === 'horizontal') {
+        const rulerHTML = `<canvas id="${id}" style="width:${width}px;height:${height}px;"></canvas>`;
+        document.getElementById(id).outerHTML = rulerHTML;
+
+        const canvas = document.getElementById(id);
+        canvas.width = dpr * width;
+        canvas.height = dpr * height;
+        // 画尺子
+        const ctx = canvas.getContext('2d');
+        const per = precision * scale.per;
+        for (let i = minValue, j = 0; i <= maxValue; i += precision, j++) {
+          if (i % per === 0) {
+            drawXScale(ctx, j * gutter, scale, i);
+          } else {
+            drawXDivision(ctx, j * gutter, division);
+          }
+        }
+        // 画横线
+        drawLine({ ctx, start: { x: 0, y: canvas.height }, end: { x: canvas.width, y: canvas.height } });
+        // 监听hover事件
+        canvas.addEventListener('mousemove', e => {
+          // 尺子值
+          console.log(Math.ceil(e.offsetX / gutter * precision));
+        });
+        canvas.addEventListener('mouseout', e => {
+          console.log('mouseout');
+        });
+        // 监听点击事件
+        canvas.addEventListener('click', e => {
+          // 尺子值
+          console.log(Math.ceil(e.offsetX / gutter * precision));
+        })
+      } else if (type === 'vertical') {
+        const rulerHTML = `<canvas id="${id}" style="width:${height}px;height:${width}px;"></canvas>`;
+        document.getElementById(id).outerHTML = rulerHTML;
+
+        const canvas = document.getElementById(id);
+        canvas.width = dpr * height;
+        canvas.height = dpr * width;
+
+        // 画尺子
+        const ctx = canvas.getContext('2d');
+        const per = precision * scale.per;
+        for (let i = minValue, j = 0; i <= maxValue; i += precision, j++) {
+          if (i % per === 0) {
+            drawYScale(ctx, j * gutter, scale, i);
+          } else {
+            drawYDivision(ctx, j * gutter, division);
+          }
+        }
+        // 画竖线
+        drawLine({ ctx, start: { x: canvas.width, y: 0 }, end: { x: canvas.width, y: canvas.height } });
+        // 监听hover事件
+        canvas.addEventListener('mousemove', e => {
+          // 尺子值
+          console.log(Math.ceil(e.offsetY / gutter * precision));
+        });
+        // 监听点击事件
+        canvas.addEventListener('click', e => {
+          // 尺子值
+          console.log(Math.ceil(e.offsetY / gutter * precision));
+        })
+      }
+    }
+
+    function drawYScale(ctx, y, scale, text = '1') {
+      // 此时已是2x像素
+      const width = ctx.canvas.width;
+      drawLine({ ctx, start: { x: width, y }, end: { x: width - scale.height, y }, lineWidth: scale.width, strokeStyle: scale.lineColor });
+      ctx.save();
+      ctx.translate(scale.height - 7, y - 15);
+      ctx.rotate(-90 * Math.PI / 180);
+      drawText({ ctx, text, x: 0, y: 0, fontSize: scale.fontSize, fillStyle: scale.fontColor })
+      ctx.restore();
+    }
+
+    function drawYDivision(ctx, y, division) {
+      // 此时已是2x像素
+      const width = ctx.canvas.width;
+      drawLine({ ctx, start: { x: width, y }, end: { x: width - division.height, y }, lineWidth: division.width, strokeStyle: division.lineColor });
+    }
+
+    function drawXScale(ctx, x, scale, text = '1') {
+      // 此时已是2x像素
+      const height = ctx.canvas.height;
+      drawLine({ ctx, start: { x, y: height / 2 }, end: { x, y: height / 2 - scale.height }, lineWidth: scale.width, strokeStyle: scale.lineColor });
+      drawText({ ctx, text, x: x + 3, y: scale.height - 6, fontSize: scale.fontSize, fillStyle: scale.fontColor, textAlign: 'left' })
+    }
+
+    function drawXDivision(ctx, x, division) {
+      // 此时已是2x像素
+      const height = ctx.canvas.height;
+      drawLine({ ctx, start: { x, y: height / 2 }, end: { x, y: height / 2 - division.height }, lineWidth: division.width, strokeStyle: division.lineColor });
+    }
+
+    function drawLine({ ctx, start = { x: 0, y: 0 }, end = { x: 0, y: 0 }, lineWidth = 1, strokeStyle = '#999' }) {
+      ctx.beginPath();
+      console.log(start, end, lineWidth, dpr, strokeStyle);
+      ctx.moveTo(dpr * start.x, dpr * start.y);
+      ctx.lineWidth = dpr * lineWidth;
+      ctx.lineTo(dpr * end.x, dpr * end.y);
+      ctx.strokeStyle = strokeStyle;
+      ctx.stroke();
+    };
+
+    function drawText({ ctx, text, x, y, fontSize = 12, fontFamily = 'serif', fillStyle = '#000', textAlign = 'center' }) {
+      ctx.textAlign = textAlign;
+      ctx.fillStyle = fillStyle;
+      ctx.font = `${dpr * fontSize + 'px'} ${fontFamily}`;
+      ctx.fillText(text, dpr * x, dpr * y);
+    }
+
+    function ObjectDeepSet(o1 = {}, o2 = {}) {
+      for (let key in o1) {
+        if (o1.hasOwnProperty(key) && o2.hasOwnProperty(key)) {
+          if (o1[key] instanceof Array && o2[key] instanceof Array) {
+            let length = (o1[key].length < o2[key].length ? o1[key].length : o2[key].length) || 0
+            for (let i = 0; i < length; i++) {
+              if (typeof o1[key][i] !== 'object' && typeof o2[key][i] !== 'object') {
+                o1[key][i] = o2[key][i]
+              } else {
+                ObjectDeepSet(o1[key][i], o2[key][i])
+              }
+            }
+          } else if (o1[key] instanceof Date && o2[key] instanceof Date) {
+            o1[key] = new Date(o2[key].getTime())
+          } else if (typeof o1[key] === 'object' && typeof o2[key] === 'object') {
+            ObjectDeepSet(o1[key], o2[key])
+          } else {
+            o1[key] = o2[key]
+          }
+        }
+      }
+      return o1
+    }
+
+    initRuler({
+      id: 'horizontalRuler'
+    }, 'horizontal')
+    initRuler({
+      id: 'verticalRuler'
+    }, 'vertical')
+  </script>
+</body>
+
+</html>

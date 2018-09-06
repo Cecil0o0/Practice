@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>字符文字生成器</title>
+</head>
+
+<body>
+  <div id="app">
+    文字：<input placeholder="请输入文字" v-model:value="text" @keydown.13="gen"/>
+    字(css.font)：<input v-model:value="font" style="width: 200px" @keydown.13="gen"/>
+    宽：<input type="number" v-model:value="width" @keydown.13="gen">
+    高：<input type="number" v-model:value="height" @keydown.13="gen">
+    开始位置<input type="number" v-model:value="start[0]" @keydown.13="gen"><input type="number" v-model:value="start[1]" @keydown.13="gen">
+    <button @click="gen">生成</button>
+    <br/>
+    <canvas id="canvas" :width="width" :height="height" :style="{width: width / 2 + 'px', height: height / 2 + 'px'}"></canvas>
+    <div style="font-size: 12px;line-height: 1;">{{str}}</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          text: 'Hello World',
+          height: 40,
+          width: 200,
+          font: 'normal normal bold 24px Monaco',
+          start: [10, 30],
+          str: ''
+        }
+      },
+      methods: {
+        gen() {
+          this.str = getTextStr(this)
+        }
+      },
+      mounted () {
+        this.gen()
+      }
+    })
+    function getTextStr({ text = 'Hello world111', width = 200, height = 40, font = 'normal normal bold 24px Monaco', start = [10, 30] } = {}) {
+      var canvas = document.getElementById('canvas')
+      var ctx = canvas.getContext('2d')
+
+      canvas.height = height
+
+
+      ctx.font = font;
+      ctx.fillStyle = '#00f'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(text, start[0], start[1])
+
+      var dataUrl = canvas.toDataURL()
+
+      // 转成8位无符号固定数组
+      var imageData = ctx.getImageData(0, 0, width, height)
+
+      // 拼接字符
+      const data = imageData.data
+      let str = ''
+      for (var i = 0; i < data.length; i += 4) {
+        var b = data[i + 2]
+        if (b === 0) {
+          str += '_'
+        } else {
+          str += '\\'
+        }
+        if ((i / 4) % width === 0) {
+          str += '\r\n'
+        }
+      }
+
+      return str
+    }
+  </script>
+</body>
+
+</html>
