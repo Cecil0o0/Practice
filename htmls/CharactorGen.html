@@ -14,7 +14,9 @@
     字(css.font)：<input v-model:value="font" style="width: 200px" @keydown.13="gen"/>
     宽：<input type="number" v-model:value="width" @keydown.13="gen">
     高：<input type="number" v-model:value="height" @keydown.13="gen">
-    开始位置<input type="number" v-model:value="start[0]" @keydown.13="gen"><input type="number" v-model:value="start[1]" @keydown.13="gen">
+    开始位置：<input type="number" v-model:value="start[0]" @keydown.13="gen"><input type="number" v-model:value="start[1]" @keydown.13="gen">
+    背景字符：<input v-model:value="bgCharacter" @keydown.13="gen"/>
+    前景字符：<input v-model:value="frontCharacter" @keydown.13="gen"/>
     <button @click="gen">生成</button>
     <br/>
     <canvas id="canvas" :width="width" :height="height" :style="{width: width / 2 + 'px', height: height / 2 + 'px'}"></canvas>
@@ -31,6 +33,8 @@
           width: 200,
           font: 'normal normal bold 24px Monaco',
           start: [10, 20],
+          bgCharacter: '_',
+          frontCharacter: '\\',
           str: ''
         }
       },
@@ -43,7 +47,7 @@
         this.gen()
       }
     })
-    function getTextStr({ text = 'Hello world111', width = 200, height = 40, font = 'normal normal bold 24px Monaco', start = [10, 20] } = {}) {
+    function getTextStr({ text = 'Hello world111', width = 200, height = 40, font = 'normal normal bold 24px Monaco', start = [10, 20], bgCharacter = '_', frontCharacter = '\\' } = {}) {
       var canvas = document.getElementById('canvas')
       var ctx = canvas.getContext('2d')
 
@@ -66,9 +70,9 @@
       for (var i = 0; i < data.length; i += 4) {
         var b = data[i + 2]
         if (b === 0) {
-          str += '_'
+          str += bgCharacter
         } else {
-          str += '\\'
+          str += frontCharacter
         }
         if ((i / 4) % width === 0) {
           str += '\r\n'
