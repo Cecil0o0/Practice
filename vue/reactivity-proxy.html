@@ -41,13 +41,13 @@
     // 利用proxy代替defineProperty
     // 用于触发collect依赖和apply依赖
     function wrapperProxy(BeProxy) {
-      let data = BeProxy
+      let dataTarget = BeProxy
       if (typeof BeProxy === 'function') {
-        data = BeProxy()
+        dataTarget = BeProxy()
       }
       let dep = new Dep()
-      data.__dep__ = dep
-      return new Proxy(data, {
+      dataTarget.__dep__ = dep
+      return new Proxy(dataTarget, {
         set(target, propKey, newValue, receiver) {
           let val = target[propKey]
           if (val === newValue) return
@@ -82,6 +82,7 @@
     let methods = {
       changeType () {
         data.type = 2
+        console.log('执行type = 2')
       }
     }
 
@@ -94,9 +95,9 @@
     })
 
     // 验证响应式系统
-    console.log(data.modeName)
+    console.log('modeName: ', data.modeName)
     methods.changeType()
-    console.log(data.modeName)
+    console.log('modeName: ', data.modeName)
   </script>
 </body>
 </html>
