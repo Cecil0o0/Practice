@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class Parent {
+      constructor() {
+        // 父属性
+        this.parentAttr = 'x'
+        // 被重写的属性
+        this.state = 3
+      }
+    }
+    // 父类原型属性
+    Parent.prototype.state = 4
+    class Input extends Parent{
+      constructor(props) {
+        super(props)
+        // 重写
+        this.state = 1
+      }
+    }
+    // 子类原型属性
+    Input.prototype.state = 2
+    var input = new Input()
+    console.log(input)
+  </script>
+</body>
+</html>

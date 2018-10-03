@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 前端响应式系统的构建
+    let data = { price: 5, quantity: 2 }
+    let target = null
+
+    // 定义依赖收集对象
+    class Dep {
+      constructor() {
+        this.subscribers = []
+      }
+      depend() {
+        console.log(target)
+        // 这里主要区分收集依赖
+        if (target && !this.subscribers.includes(target)) {
+          this.subscribers.push(target)
+        }
+      }
+      notify() {
+        this.subscribers.forEach(sub => sub())
+      }
+    }
+
+    // 初始化getter, setter
+    Object.keys(data).forEach(key => {
+      let internalValue = data[key]
+
+      const dep = new Dep()
+
+      Object.defineProperty(data, key, {
+        get() {
+          dep.depend()
+          return internalValue
+        },
+        set(newVal) {
+          internalValue = newVal
+          dep.notify()
+        }
+      })
+    })
+
+    // wathcer不再调用dep.depend
+    // 因为getter在方法内部调用了
+    function watcher(func) {
+      target = func
+      target()
+      target = null
+    }
+
+    watcher(() => {
+      data.total = data.price * data.quantity
+    })
+    console.log(data.total)
+
+    data.price = 10
+
+    console.log(data)
+  </script>
+</body>
+
+</html>
