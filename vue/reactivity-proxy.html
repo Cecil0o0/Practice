@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>reactivity-proxy</title>
+</head>
+<body>
+  <script>
+    // 实现微型响应式系统
+    // 定义环境变量
+    window.process = {}
+    process.env = {
+      NODE_ENV: 'development'
+    }
+
+    // Dep类
+    class Dep {
+      constructor() {
+        this.deps = []
+      }
+      depend() {
+        if (Dep.target) {
+          this.deps.push(Dep.target)
+        }
+      }
+      notify() {
+        this.deps.forEach(sub => sub())
+      }
+    }
+    Dep.target = null
+
+    // watcher方法
+    function watch(fn) {
+      Dep.target = fn
+      fn()
+      Dep.target = null
+    }
+
+    // 利用proxy代替defineProperty
+    function wrapperProxy(BeProxy) {
+      let data = BeProxy
+      if (typeof BeProxy === 'function') {
+        data = BeProxy()
+      }
+      let dep = new Dep()
+      data.__dep__ = dep
+      return new Proxy(data, {
+        set(target, propKey, newValue, receiver) {
+          let val = target[propKey]
+          if (val === newValue) return
+
+          target[propKey] = newValue
+          dep.notify()
+        },
+        get(target, propKey, proxy) {
+          if (propKey in target) {
+            dep.depend()
+            return target[propKey]
+          } else {
+            if (process.env.NODE_ENV !== 'production' || devTips) {
+              console.warn('属性不存在')
+            }
+            return undefined
+          }
+        }
+      })
+    }
+
+    // 定义data
+    let data = wrapperProxy(() => {
+      return {
+        // 1 为列表模式
+        // 2 为卡片模式
+        type: 1,
+        // 模式名称
+        modeName: 'list'
+      }
+    })
+
+    // 定义methods
+    let methods = {
+      changeType () {
+        data.modeName = data.type === 1 ? 'list' : 'card'
+      }
+    }
+
+    // 遍历methods监听，使其变成响应式
+    Object.keys(methods).forEach(key => {
+      watch(methods[key])
+    })
+
+    // 验证响应式系统
+    console.log(data.modeName)
+    data.type = 2
+    console.log(data.modeName)
+  </script>
+</body>
+</html>
