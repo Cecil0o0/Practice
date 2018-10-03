@@ -15,7 +15,7 @@
       NODE_ENV: 'development'
     }
 
-    // Dep类
+    // 用于管理属性依赖
     class Dep {
       constructor() {
         this.deps = []
@@ -31,7 +31,7 @@
     }
     Dep.target = null
 
-    // watcher方法
+    // 用于收集依赖
     function watch(fn) {
       Dep.target = fn
       fn()
@@ -39,6 +39,7 @@
     }
 
     // 利用proxy代替defineProperty
+    // 用于触发collect依赖和apply依赖
     function wrapperProxy(BeProxy) {
       let data = BeProxy
       if (typeof BeProxy === 'function') {
@@ -68,7 +69,6 @@
       })
     }
 
-    // 定义data
     let data = wrapperProxy(() => {
       return {
         // 1 为列表模式
@@ -79,21 +79,23 @@
       }
     })
 
-    // 定义methods
     let methods = {
       changeType () {
-        data.modeName = data.type === 1 ? 'list' : 'card'
+        data.type = 2
       }
     }
 
-    // 遍历methods监听，使其变成响应式
-    Object.keys(methods).forEach(key => {
-      watch(methods[key])
+    // 观察函数数组
+    let watchers = [() => data.modeName = data.type === 1 ? 'list' : 'card']
+
+    // 遍历监听观察函数，使其变成响应式
+    Object.keys(watchers).forEach(key => {
+      watch(watchers[key])
     })
 
     // 验证响应式系统
     console.log(data.modeName)
-    data.type = 2
+    methods.changeType()
     console.log(data.modeName)
   </script>
 </body>
