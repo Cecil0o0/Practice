@@ -22,7 +22,8 @@
         this.deps = []
       }
       depend() {
-        if (Dep.target) {
+        // 当前正在收集依赖以及确保不收集重复依赖
+        if (Dep.target && this.deps.indexOf(Dep.target) === -1) {
           this.deps.push(Dep.target)
         }
       }
